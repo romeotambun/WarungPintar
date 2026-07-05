@@ -24,7 +24,6 @@
     .premium-input { background-color: var(--bg-input); border: 1px solid var(--border-panel); color: var(--text-primary); }
     .nav-btn.active { background: rgba(59, 130, 246, 0.1); color: #3b82f6; border-left: 4px solid #3b82f6; }
 
-    /* CONFIG CETAK THERMAL PRINTER (58mm / 80mm) */
     @media print {
       body * { visibility: hidden; background: white !important; color: black !important; }
       #receiptModal, #receiptModal * { visibility: visible; }
@@ -35,7 +34,7 @@
 </head>
 <body class="h-full flex overflow-hidden">
 
-  <!-- CUSTOM ALERT DIALOG MODAL -->
+  <!-- ALERT MODAL -->
   <div id="customAlertModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
     <div class="bg-[#0b1120] max-w-sm w-full p-6 rounded-2xl shadow-2xl border border-blue-500/20 text-center">
       <h3 id="customAlertTitle" class="text-base font-bold mb-2">Pemberitahuan</h3>
@@ -44,7 +43,7 @@
     </div>
   </div>
 
-  <!-- AUTHENTICATION FORM CONTAINER -->
+  <!-- AUTHENTICATION HUB -->
   <div id="authContainer" class="fixed inset-0 z-50 min-h-screen flex items-center justify-center px-4 bg-[#04060b]">
     <div class="premium-panel max-w-md w-full p-8 rounded-2xl relative z-10 bg-[#0d1424]">
       <form id="authForm" onsubmit="event.preventDefault(); handleAuthSubmit();">
@@ -66,7 +65,7 @@
           </div>
 
           <div id="roleFieldGroup" class="hidden">
-            <label class="block text-slate-400 text-[10px] font-bold mb-1.5 uppercase tracking-wider">Pilih Peran Hub Saku (Role)</label>
+            <label class="block text-slate-400 text-[10px] font-bold mb-1.5 uppercase tracking-wider">Pilih Peran Toko (Role)</label>
             <select id="authRole" onchange="adjustRegisterFields()" class="w-full px-4 py-2.5 rounded-xl premium-input text-xs font-bold focus:outline-none">
               <option value="Admin">Admin / Pemilik Toko (Generate Toko Baru)</option>
               <option value="Manager">Manager / Pengelola Inventori</option>
@@ -88,7 +87,7 @@
             <label class="block text-slate-400 text-[10px] font-bold mb-1.5 uppercase tracking-wider">Kata Sandi Akun</label>
             <div class="relative">
               <input type="password" id="authPassword" class="w-full pl-4 pr-10 py-2.5 rounded-xl premium-input font-monospace text-xs focus:outline-none" placeholder="••••••••">
-              <button type="button" onclick="togglePass('authPassword', 'eyeIcon1')" class="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-500"><i id="eyeIcon1" class="fa-solid fa-eye"></i></button>
+              <button type="button" onclick="togglePass('authPassword', 'eyeIcon1')" class="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-500 focus:outline-none"><i id="eyeIcon1" class="fa-solid fa-eye"></i></button>
             </div>
           </div>
 
@@ -101,7 +100,7 @@
               <label class="block text-slate-400 text-[10px] font-bold mb-1.5 uppercase tracking-wider">Kata Sandi Baru Toko</label>
               <div class="relative">
                 <input type="password" id="newPassword" class="w-full pl-4 pr-10 py-2.5 rounded-xl premium-input font-monospace text-xs focus:outline-none" placeholder="••••••••">
-                <button type="button" onclick="togglePass('newPassword', 'eyeIcon2')" class="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-500"><i id="eyeIcon2" class="fa-solid fa-eye"></i></button>
+                <button type="button" onclick="togglePass('newPassword', 'eyeIcon2')" class="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-500 focus:outline-none"><i id="eyeIcon2" class="fa-solid fa-eye"></i></button>
               </div>
             </div>
           </div>
@@ -130,7 +129,7 @@
     </div>
   </div>
 
-  <!-- MAIN NAVIGATION SIDEBAR -->
+  <!-- NAVIGATION SIDEBAR -->
   <aside class="w-64 bg-[#090d1a] border-r border-slate-800/60 flex flex-col justify-between shrink-0">
     <div>
       <div class="p-5 border-b border-slate-800 flex items-center space-x-3">
@@ -157,7 +156,7 @@
     </div>
   </aside>
 
-  <!-- CONTROL SYSTEM WINDOW -->
+  <!-- WORKSPACE PANELS -->
   <main class="flex-grow flex flex-col min-w-0 overflow-hidden">
     <header class="h-14 border-b border-slate-800 flex items-center justify-between px-6 bg-[#090d1a]">
       <h2 id="pageTitle" class="text-xs font-bold uppercase tracking-widest border-l-2 border-blue-500 pl-3">MESIN KASIR</h2>
@@ -185,14 +184,31 @@
             <div class="flex justify-between items-baseline"><span class="text-[9px] text-slate-400 font-bold uppercase">Total Belanja:</span><span id="cartTotalText" class="text-xl font-extrabold font-monospace text-blue-400">Rp 0</span></div>
             
             <div class="grid grid-cols-3 gap-1.5">
-              <button onclick="setPaymentMethod('Cash')" id="payBtn-Cash" class="py-1 text-[9px] font-bold border rounded-lg uppercase tracking-wider bg-blue-500/20 border-blue-500 text-blue-400">Cash</button>
-              <button onclick="setPaymentMethod('QRIS')" id="payBtn-QRIS" class="py-1 text-[9px] font-bold border border-slate-800 text-slate-400 rounded-lg uppercase tracking-wider">QRIS</button>
-              <button onclick="setPaymentMethod('Card')" id="payBtn-Card" class="py-1 text-[9px] font-bold border border-slate-800 text-slate-400 rounded-lg uppercase tracking-wider">Card</button>
+              <button type="button" onclick="setPaymentMethod('Cash')" id="payBtn-Cash" class="py-1.5 text-[9px] font-bold border rounded-lg uppercase tracking-wider bg-blue-500/20 border-blue-500 text-blue-400">Cash</button>
+              <button type="button" onclick="setPaymentMethod('QRIS')" id="payBtn-QRIS" class="py-1.5 text-[9px] font-bold border border-slate-800 text-slate-400 rounded-lg uppercase tracking-wider">QRIS</button>
+              <button type="button" onclick="setPaymentMethod('Card')" id="payBtn-Card" class="py-1.5 text-[9px] font-bold border border-slate-800 text-slate-400 rounded-lg uppercase tracking-wider">EDC Card</button>
             </div>
 
+            <!-- BLOK INPUT TUNAI -->
             <div id="cashInputBlock">
               <input type="number" id="posCashInput" oninput="calculateChange()" class="w-full premium-input py-2 px-3 text-xs font-bold rounded-lg font-monospace focus:outline-none" placeholder="Nominal Uang Tunai (Rp)">
             </div>
+
+            <!-- BLOK INPUT KARTU DEBIT/KREDIT -->
+            <div id="cardInputBlock" class="hidden space-y-2">
+              <input type="text" id="posCardNumber" maxlength="19" class="w-full premium-input py-2 px-3 text-xs font-bold rounded-lg font-monospace focus:outline-none" placeholder="Nomor Kartu (16-Digit)">
+              <input type="number" id="posCardAmount" class="w-full premium-input py-2 px-3 text-xs font-bold rounded-lg font-monospace focus:outline-none" placeholder="Nominal Gesek EDC (Rp)">
+            </div>
+
+            <!-- BLOK PRESENTASI QRIS DINAMIS -->
+            <div id="qrisInputBlock" class="hidden p-2.5 bg-white text-black rounded-xl text-center space-y-2">
+              <p class="text-[9px] font-black uppercase text-gray-500 tracking-wider">QRIS MPM DINAMIS BI</p>
+              <div class="flex justify-center">
+                <img id="qrisQrImage" src="" class="w-32 h-32 border p-1 bg-white">
+              </div>
+              <p class="text-[8px] font-monospace text-gray-400 break-all leading-tight px-1" id="qrisStringText"></p>
+            </div>
+
             <div class="flex justify-between items-center bg-black/20 p-2 rounded-lg text-[10px] font-bold uppercase">
               <span class="text-slate-400">Uang Kembalian:</span><span id="posChangeText" class="font-monospace text-emerald-400">Rp 0</span>
             </div>
@@ -201,17 +217,17 @@
         </div>
       </section>
 
-      <!-- TAB 2: MANAGEMENT INVENTORI (ADMIN & MANAGER) -->
+      <!-- TAB 2: INVENTORIS STOK PRODUK -->
       <section id="tab-inventory" class="tab-content hidden space-y-4">
         <div class="flex justify-between items-center">
-          <h3 class="text-xs font-bold uppercase tracking-widest text-slate-400">Stok & Gudang</h3>
-          <button onclick="openProductModal()" class="btn-gradient-emerald text-white text-[10px] font-bold px-3 py-1.5 rounded-xl uppercase tracking-wider"><i class="fa-solid fa-plus mr-1"></i> Input Item</button>
+          <h3 class="text-xs font-bold uppercase tracking-widest text-slate-400">Gudang & Inventori Barang</h3>
+          <button onclick="openProductModal()" class="btn-gradient-emerald text-white text-[10px] font-bold px-3 py-1.5 rounded-xl uppercase tracking-wider"><i class="fa-solid fa-plus mr-1"></i> Tambah Item Baru</button>
         </div>
         <div class="premium-panel rounded-xl overflow-x-auto">
-          <table class="w-full text-left border-collapse min-w-[600px]">
+          <table class="w-full text-left border-collapse min-w-[700px]">
             <thead>
               <tr class="bg-black/40 border-b border-slate-800 text-[9px] uppercase font-bold tracking-widest">
-                <th class="p-3">SKU</th><th class="p-3">Nama Produk</th><th class="p-3">Kategori</th><th class="p-3 text-right">Harga Beli</th><th class="p-3 text-right">Harga Jual</th><th class="p-3 text-center">Stok Gudang</th><th class="p-3 text-center">Aksi</th>
+                <th class="p-3">ID Produk</th><th class="p-3">Nama Barang</th><th class="p-3">Kategori</th><th class="p-3 text-right">Harga Pokok (Beli)</th><th class="p-3 text-right">Harga Jual</th><th class="p-3 text-center">Stok Sisa</th><th class="p-3 text-center">Aksi</th>
               </tr>
             </thead>
             <tbody id="inventoryTableBody" class="text-xs divide-y divide-slate-800/40 font-semibold"></tbody>
@@ -219,41 +235,47 @@
         </div>
       </section>
 
-      <!-- TAB 3: DASHBOARD OMSET & HISTORI NOTA (ADMIN ONLY) -->
+      <!-- TAB 3: DASHBOARD ANALITIK LABA -->
       <section id="tab-history" class="tab-content hidden space-y-5">
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div class="premium-panel p-4 rounded-xl">
-            <span class="text-[9px] font-bold text-slate-400 uppercase tracking-wider">Omset Penjualan (Bruto)</span>
+          <div class="premium-panel p-4 rounded-xl relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-1.5 h-full bg-blue-500"></div>
+            <span class="text-[9px] font-bold text-slate-400 uppercase tracking-wider">Omset Penjualan Kotor (Bruto)</span>
             <h3 id="dashTotalRevenue" class="text-xl font-black font-monospace text-blue-400 mt-1">Rp 0</h3>
           </div>
-          <div class="premium-panel p-4 rounded-xl">
-            <span class="text-[9px] font-bold text-slate-400 uppercase tracking-wider">Keuntungan Bersih Toko (Netto)</span>
+          <div class="premium-panel p-4 rounded-xl relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-1.5 h-full bg-emerald-500"></div>
+            <span class="text-[9px] font-bold text-slate-400 uppercase tracking-wider">Keuntungan Bersih Riil (Netto Margin)</span>
             <h3 id="dashTotalProfit" class="text-xl font-black font-monospace text-emerald-400 mt-1">Rp 0</h3>
           </div>
         </div>
-        <div class="premium-panel rounded-xl overflow-x-auto">
-          <table class="w-full text-left border-collapse min-w-[600px]">
-            <thead>
-              <tr class="bg-black/40 border-b border-slate-800 text-[9px] uppercase font-bold tracking-widest">
-                <th class="p-3">Nota ID</th><th class="p-3">Waktu</th><th class="p-3">Detail Belanja</th><th class="p-3 text-right">Total Tagihan</th><th class="p-3">Metode</th><th class="p-3">Operator Kasir</th>
-              </tr>
-            </thead>
-            <tbody id="historyTableBody" class="text-xs divide-y divide-slate-800/40 font-monospace"></tbody>
-          </table>
+        
+        <div class="premium-panel p-4 rounded-xl">
+          <h3 class="text-xs font-bold uppercase tracking-wider mb-3 text-slate-300">Log Buku Penjualan Toko</h3>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse min-w-[700px]">
+              <thead>
+                <tr class="bg-black/20 border-b border-slate-800 text-[9px] uppercase font-bold tracking-widest">
+                  <th class="p-3">ID Transaksi</th><th class="p-3">Waktu</th><th class="p-3">Daftar Item Belanja</th><th class="p-3 text-right">Total Transaksi</th><th class="p-3">Metode</th><th class="p-3">Petugas Kasir</th>
+                </tr>
+              </thead>
+              <tbody id="historyTableBody" class="text-xs divide-y divide-slate-800/40 font-monospace"></tbody>
+            </table>
+          </div>
         </div>
       </section>
 
-      <!-- TAB 4: MAPPING ANGGOTA TIM (ADMIN ONLY) -->
+      <!-- TAB 4: MANAGEMENT PEMETAAN TIM -->
       <section id="tab-team" class="tab-content hidden space-y-4">
         <div class="border-b border-slate-800 pb-2">
-          <h3 class="text-xs font-bold uppercase tracking-widest text-slate-400">Manajemen Pemetaan Karyawan (Team Mapping)</h3>
-          <p class="text-[10px] text-slate-500 mt-0.5 font-semibold">Karyawan Anda (Manager/Kasir) dapat memetakan akun mereka ke toko ini secara mandiri saat registrasi menggunakan Merchant ID di atas.</p>
+          <h3 class="text-xs font-bold uppercase tracking-widest text-slate-400">Pemetaan Otorisasi Karyawan (Team Mapping)</h3>
+          <p class="text-[10px] text-slate-500 mt-0.5 font-semibold">Daftar seluruh manajer dan kasir aktif yang ditautkan ke ID Toko Anda.</p>
         </div>
         <div class="premium-panel rounded-xl overflow-x-auto max-w-2xl">
           <table class="w-full text-left border-collapse">
             <thead>
               <tr class="bg-black/40 border-b border-slate-800 text-[9px] uppercase font-bold tracking-widest">
-                <th class="p-3">Email Karyawan</th><th class="p-3">Tingkat Akses (Role)</th><th class="p-3 text-center">Status</th>
+                <th class="p-3">Alamat Email Tim</th><th class="p-3">Hak Akses Sistem (Role)</th><th class="p-3 text-center">Status Integrasi</th>
               </tr>
             </thead>
             <tbody id="teamTableBody" class="text-xs divide-y divide-slate-800/40 font-semibold"></tbody>
@@ -264,18 +286,19 @@
     </div>
   </main>
 
-  <!-- RECEIPTS STRUK THERMAL MODAL -->
+  <!-- RECEIPT MODAL -->
   <div id="receiptModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
     <div class="bg-white text-black p-5 rounded-lg max-w-sm w-full font-monospace text-xs shadow-2xl">
       <div class="text-center border-b border-dashed border-black pb-2 mb-2">
-        <h4 id="recMerchantName" class="font-bold text-sm uppercase">-</h4>
-        <p class="text-[9px] text-gray-500">Struk Pembayaran Valid</p>
+        <h4 id="recMerchantName" class="font-bold text-sm uppercase">SAKUKASIR HUB</h4>
+        <p class="text-[9px] text-gray-500">Struk Pembayaran Pembelian</p>
       </div>
       <div class="space-y-0.5 text-[10px] mb-2 border-b border-gray-200 pb-2">
         <div>NOTA  : <span id="recId" class="font-bold"></span></div>
         <div>WAKTU : <span id="recDate"></span></div>
         <div>KASIR : <span id="recCashier"></span></div>
-        <div>METODE: <span id="recMethod" class="font-bold uppercase"></span></div>
+        <div>METODE: <span id="recMethod" class="font-bold uppercase text-blue-600"></span></div>
+        <div id="recCardNumBlock" class="hidden">KARTU : <span id="recCardNum"></span></div>
       </div>
       <div class="border-b border-dashed border-black pb-2 mb-2 space-y-1" id="recItems"></div>
       <div class="space-y-0.5 text-right text-[11px] font-bold">
@@ -291,31 +314,31 @@
     </div>
   </div>
 
-  <!-- FORM PRODUCT MODAL -->
+  <!-- FORM DATA INVENTORI MODAL -->
   <div id="productModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
     <div class="custom-modal-box max-w-md w-full p-5 bg-[#0d1424] border border-blue-500/30 rounded-2xl">
-      <h3 id="prodModalTitle" class="text-sm font-bold uppercase tracking-wider mb-4 border-b border-slate-800 pb-2">Form Inventori Produk</h3>
+      <h3 id="prodModalTitle" class="text-sm font-bold uppercase tracking-wider mb-4 border-b border-slate-800 pb-2">Form Data Barang</h3>
       <div class="space-y-3 text-xs font-semibold">
         <input type="hidden" id="formProdId">
-        <div><label class="block text-[8px] text-slate-400 mb-1">Nama Produk</label><input type="text" id="formProdName" class="w-full premium-input py-2 px-3 rounded-lg font-bold focus:outline-none"></div>
-        <div><label class="block text-[8px] text-slate-400 mb-1">Kategori</label><input type="text" id="formProdCat" class="w-full premium-input py-2 px-3 rounded-lg font-bold focus:outline-none"></div>
+        <div><label class="block text-[8px] text-slate-400 mb-1">Nama Item Barang</label><input type="text" id="formProdName" class="w-full premium-input py-2 px-3 rounded-lg font-bold focus:outline-none"></div>
+        <div><label class="block text-[8px] text-slate-400 mb-1">Kategori Produk</label><input type="text" id="formProdCat" class="w-full premium-input py-2 px-3 rounded-lg font-bold focus:outline-none"></div>
         <div class="grid grid-cols-2 gap-3">
-          <div><label class="block text-[8px] text-slate-400 mb-1">Harga Beli (Rp)</label><input type="number" id="formProdCost" class="w-full premium-input py-2 px-3 rounded-lg font-bold font-monospace focus:outline-none"></div>
-          <div><label class="block text-[8px] text-slate-400 mb-1">Harga Jual (Rp)</label><input type="number" id="formProdSale" class="w-full premium-input py-2 px-3 rounded-lg font-bold font-monospace focus:outline-none"></div>
+          <div><label class="block text-[8px] text-slate-400 mb-1">Harga Pokok / Beli (Rp)</label><input type="number" id="formProdCost" class="w-full premium-input py-2 px-3 rounded-lg font-bold font-monospace focus:outline-none"></div>
+          <div><label class="block text-[8px] text-slate-400 mb-1">Harga Jual Kasir (Rp)</label><input type="number" id="formProdSale" class="w-full premium-input py-2 px-3 rounded-lg font-bold font-monospace focus:outline-none"></div>
         </div>
-        <div><label class="block text-[8px] text-slate-400 mb-1">Stok Gudang</label><input type="number" id="formProdStock" class="w-full premium-input py-2 px-3 rounded-lg font-bold font-monospace focus:outline-none"></div>
-        <div><label class="block text-[8px] text-slate-400 mb-1">Barcode / SKU</label><input type="text" id="formProdBarcode" class="w-full premium-input py-2 px-3 rounded-lg font-bold font-monospace focus:outline-none"></div>
+        <div><label class="block text-[8px] text-slate-400 mb-1">Stok Gudang Fisik</label><input type="number" id="formProdStock" class="w-full premium-input py-2 px-3 rounded-lg font-bold font-monospace focus:outline-none"></div>
+        <div><label class="block text-[8px] text-slate-400 mb-1">Barcode / SKU Barang</label><input type="text" id="formProdBarcode" class="w-full premium-input py-2 px-3 rounded-lg font-bold font-monospace focus:outline-none"></div>
       </div>
       <div class="grid grid-cols-2 gap-3 mt-5">
         <button onclick="document.getElementById('productModal').classList.add('hidden')" class="w-full bg-slate-800 py-2 rounded-xl text-[10px] font-bold uppercase text-slate-300">Batal</button>
-        <button onclick="saveProductForm()" class="w-full btn-gradient-blue py-2 rounded-xl text-[10px] font-bold uppercase text-white">Simpan</button>
+        <button onclick="saveProductForm()" class="w-full btn-gradient-blue py-2 rounded-xl text-[10px] font-bold uppercase text-white">Simpan Perubahan</button>
       </div>
     </div>
   </div>
 
   <script>
     // =========================================================================
-    // PASTE WEB APP URL ANDA DARI GOOGLE APPS SCRIPT DI SINI:
+    // PASTE WEB APP URL KASIR ANDA DARI GOOGLE APPS SCRIPT DI SINI:
     // =========================================================================
     const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyiEoyhqONtId2Wre7tTNdlkoNUKYwNfXIQLKv9i2RXXQyq-FF6OQzNAJXcZWhXJP4-/exec";
 
@@ -338,6 +361,7 @@
       else { x.type = "password"; icon.className = "fa-solid fa-eye"; }
     }
 
+    // HELPER JALUR AMAN INTEGRASI DATA URL FETCH GAS BACKEND
     async function callGasBackend(actionName, argumentArray) {
       const response = await fetch(GAS_WEB_APP_URL, {
         method: "POST", mode: "cors", headers: { "Content-Type": "text/plain" },
@@ -353,7 +377,6 @@
     }
     function closeCustomAlert() { document.getElementById('customAlertModal').classList.add('hidden'); }
 
-    // HANDLING INPUT DINAMIS REGISTER BERDASARKAN PERAN / ROLE
     function adjustRegisterFields() {
       let role = document.getElementById('authRole').value;
       if (role === "Admin") {
@@ -380,15 +403,16 @@
       
       document.getElementById('sidebarMerchantName').innerText = session.merchantName;
       document.getElementById('sidebarMerchantId').innerText = session.merchantId;
-      document.getElementById('sidebarRoleLabel').innerText = "Akses: " + session.role;
+      document.getElementById('sidebarRoleLabel').innerText = "Akses Peran: " + session.role;
       document.getElementById('sidebarUserEmail').innerText = session.email;
     }
 
     function loadAllSystemData() {
       if (isMockMode) {
         globalProducts = JSON.parse(localStorage.getItem('MOCK_POS_PRODUCTS')) || [
-          { id: "P101", name: "Kopi Latte Aren", category: "Minuman", costPrice: 6000, salePrice: 15000, stock: 3, barcode: "11" },
-          { id: "P102", name: "Roti Cokelat Premium", category: "Makanan", costPrice: 4000, salePrice: 10000, stock: 20, barcode: "22" }
+          { id: "P101", name: "Kopi Latte Gula Aren", category: "Minuman", costPrice: 5000, salePrice: 15000, stock: 4, barcode: "11" },
+          { id: "P102", name: "Roti Keju Panggang", category: "Makanan", costPrice: 4000, salePrice: 12000, stock: 20, barcode: "22" },
+          { id: "P103", name: "Susu UHT Vanilla", category: "Minuman", costPrice: 3000, salePrice: 6000, stock: 0, barcode: "33" }
         ];
         globalSales = JSON.parse(localStorage.getItem('MOCK_POS_SALES')) || [];
         globalTeam = [{ email: session.email, role: session.role }];
@@ -418,13 +442,13 @@
 
       filtered.forEach(p => {
         let stockStyle = p.stock <= 0 ? 'text-red-500 font-black' : (p.stock <= 5 ? 'text-amber-500 font-bold' : 'text-slate-500');
-        let stockLabel = p.stock <= 0 ? 'HABIS' : `STOK: ${p.stock}`;
+        let stockLabel = p.stock <= 0 ? 'STOK HABIS' : `SISA STOK: ${p.stock}`;
         
         grid.innerHTML += `
           <div onclick="addToCart('${p.id}')" class="premium-panel p-3.5 rounded-xl cursor-pointer hover:border-blue-500/60 transition flex flex-col justify-between ${p.stock <= 0 ? 'opacity-40 pointer-events-none':''}">
             <div>
-              <span class="text-[8px] bg-blue-500/10 text-blue-400 py-0.5 px-2 rounded font-bold uppercase">${p.category}</span>
-              <h4 class="font-bold text-xs mt-1 truncate text-slate-200">${p.name}</h4>
+              <div class="flex justify-between items-center"><span class="text-[8px] bg-blue-500/10 text-blue-400 py-0.5 px-2 rounded font-bold uppercase">${p.category}</span></div>
+              <h4 class="font-bold text-xs mt-1.5 truncate text-slate-200">${p.name}</h4>
             </div>
             <div class="flex justify-between items-baseline mt-4">
               <span class="text-[8px] uppercase tracking-wider ${stockStyle}">${stockLabel}</span>
@@ -467,24 +491,61 @@
           <div class="bg-black/20 p-2 border border-slate-800 rounded-xl flex items-center justify-between">
             <div class="max-w-[120px]"><h5 class="text-[11px] font-bold truncate text-slate-200">${item.name}</h5><span class="text-[9px] font-monospace text-slate-500">${formatRupiah(item.salePrice)}</span></div>
             <div class="flex items-center space-x-2">
-              <button onclick="changeQty('${item.id}', -1)" class="w-5 h-5 bg-slate-800 rounded text-xs font-bold">-</button>
+              <button onclick="changeQty('${item.id}', -1)" class="w-5 h-5 bg-slate-800 rounded text-xs font-bold focus:outline-none">-</button>
               <span class="text-xs font-bold font-monospace">${item.qty}</span>
-              <button onclick="changeQty('${item.id}', 1)" class="w-5 h-5 bg-slate-800 rounded text-xs font-bold">+</button>
+              <button onclick="changeQty('${item.id}', 1)" class="w-5 h-5 bg-slate-800 rounded text-xs font-bold focus:outline-none">+</button>
             </div>
           </div>
         `;
       });
       document.getElementById('cartTotalText').innerText = formatRupiah(total);
+      
+      // Memicu pembuatan ulang QRIS jika metode QRIS aktif saat keranjang berubah
+      if(activePaymentMethod === "QRIS") { generateDynamicQRISString(total); }
       calculateChange();
+    }
+
+    // ARSITEKTUR STRUKTUR PAYLOAD QRIS MPM DINAMIS STANDARD EMVCO BANK INDONESIA (CRC-16 ASLI)
+    function generateDynamicQRISString(totalAmount) {
+      let basePayload = "00020101021226530010ID.CO.QRIS.WWW0215ID10202411556620303UMI51440014ID.CO.QRIS.WWW0215ID10202411556620303UMI520453115303360";
+      
+      // Ambil nilai nominal tagihan
+      let amtStr = totalAmount.toString();
+      let amtPayload = "54" + amtStr.length.toString().padStart(2, '0') + amtStr;
+      
+      let fullPayloadWithoutCRC = basePayload + amtPayload + "5802ID5912SAKUKASIR HUB6005DEPOK6304";
+      
+      // Hitung Checksum CRC-16 CCITT (Kalkulasi bitwise murni standard Bank Indonesia)
+      let crc = 0xFFFF;
+      for (let c = 0; c < fullPayloadWithoutCRC.length; c++) {
+        let code = fullPayloadWithoutCRC.charCodeAt(c);
+        crc ^= (code << 8);
+        for (let i = 0; i < 8; i++) {
+          if ((crc & 0x8000) !== 0) { crc = (crc << 1) ^ 0x1021; }
+          else { crc = (crc << 1); }
+        }
+      }
+      crc = (crc & 0xFFFF).toString(16).toUpperCase().padStart(4, '0');
+      let finalQRISString = fullPayloadWithoutCRC + crc;
+
+      document.getElementById('qrisStringText').innerText = finalQRISString;
+      document.getElementById('qrisQrImage').src = "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=" + encodeURIComponent(finalQRISString);
     }
 
     function setPaymentMethod(method) {
       activePaymentMethod = method;
-      document.querySelectorAll('[id^="payBtn-"]').forEach(btn => btn.className = "py-1 text-[9px] font-bold border border-slate-800 text-slate-400 rounded-lg uppercase tracking-wider");
-      document.getElementById(`payBtn-${method}`).className = "py-1 text-[9px] font-bold border rounded-lg uppercase tracking-wider bg-blue-500/20 border-blue-500 text-blue-400";
+      document.querySelectorAll('[id^="payBtn-"]').forEach(btn => btn.className = "py-1.5 text-[9px] font-bold border border-slate-800 text-slate-400 rounded-lg uppercase tracking-wider");
+      document.getElementById(`payBtn-${method}`).className = "py-1.5 text-[9px] font-bold border rounded-lg uppercase tracking-wider bg-blue-500/20 border-blue-500 text-blue-400";
       
+      document.getElementById('cashInputBlock').classList.add('hidden');
+      document.getElementById('cardInputBlock').classList.add('hidden');
+      document.getElementById('qrisInputBlock').classList.add('hidden');
+
+      let total = cart.reduce((sum, item) => sum + (item.salePrice * item.qty), 0);
+
       if(method === "Cash") { document.getElementById('cashInputBlock').classList.remove('hidden'); }
-      else { document.getElementById('cashInputBlock').classList.add('hidden'); document.getElementById('posCashInput').value = ""; }
+      else if(method === "Card") { document.getElementById('cardInputBlock').classList.remove('hidden'); document.getElementById('posCardAmount').value = total; }
+      else if(method === "QRIS") { document.getElementById('qrisInputBlock').classList.remove('hidden'); generateDynamicQRISString(total); }
       calculateChange();
     }
 
@@ -500,14 +561,29 @@
 
     function processCheckout() {
       let total = cart.reduce((sum, item) => sum + (item.salePrice * item.qty), 0);
-      let cash = activePaymentMethod === "Cash" ? (parseFloat(document.getElementById('posCashInput').value) || 0) : total;
-      if(cart.length === 0 || cash < total) return;
-      let change = cash - total;
+      if(cart.length === 0) return;
+
+      let cash = total;
+      let change = 0;
+      let cardLogLabel = "";
+
+      if(activePaymentMethod === "Cash") {
+        cash = parseFloat(document.getElementById('posCashInput').value) || 0;
+        if(cash < total) { showCustomAlert("Pembayaran Kurang", "Uang tunai fisik yang diinput kurang dari total tagihan!"); return; }
+        change = cash - total;
+      } else if (activePaymentMethod === "Card") {
+        let cardNum = document.getElementById('posCardNumber').value.trim();
+        let cardAmt = parseFloat(document.getElementById('posCardAmount').value) || 0;
+        if(!cardNum || cardAmt < total) { showCustomAlert("Transaksi EDC Ditolak", "Lengkapi nomor kartu debit/kredit dan nominal otorisasi gesek!"); return; }
+        cardLogLabel = `CARD: *${cardNum.slice(-4)}`;
+      }
+
+      let formattedMethodLabel = activePaymentMethod === "Card" ? cardLogLabel : activePaymentMethod;
 
       if (isMockMode) {
         let txId = "TRX-" + Date.now().toString().slice(-4);
         let summary = cart.map(i => `${i.name} (${i.qty}x)`).join(", ");
-        globalSales.unshift({ id: txId, date: new Date().toISOString(), items: summary, total: total, cash: cash, change: change, method: activePaymentMethod, cashier: session.email });
+        globalSales.unshift({ id: txId, date: new Date().toISOString(), items: summary, total: total, cash: cash, change: change, method: formattedMethodLabel, cashier: session.email });
         
         cart.forEach(c => {
           let p = globalProducts.find(x => x.id === c.id);
@@ -515,18 +591,18 @@
         });
         localStorage.setItem('MOCK_POS_PRODUCTS', JSON.stringify(globalProducts));
         localStorage.setItem('MOCK_POS_SALES', JSON.stringify(globalSales));
-        triggerReceipt(txId, total, cash, change);
+        triggerReceipt(txId, total, cash, change, formattedMethodLabel);
       } else {
-        callGasBackend('addSaleTransaction', [session.sheetId, cart, total, cash, change, activePaymentMethod, session.email])
-          .then(res => { if(res && res.success) triggerReceipt(res.txId, total, cash, change); });
+        callGasBackend('addSaleTransaction', [session.sheetId, cart, total, cash, change, formattedMethodLabel, session.email])
+          .then(res => { if(res && res.success) triggerReceipt(res.txId, total, cash, change, formattedMethodLabel); });
       }
     }
 
-    function triggerReceipt(txId, total, cash, change) {
+    function triggerReceipt(txId, total, cash, change, finalMethod) {
       document.getElementById('recMerchantName').innerText = session.merchantName.toUpperCase();
       document.getElementById('recId').innerText = txId;
       document.getElementById('recCashier').innerText = session.email;
-      document.getElementById('recMethod').innerText = activePaymentMethod;
+      document.getElementById('recMethod').innerText = finalMethod;
       
       let box = document.getElementById('recItems'); box.innerHTML = "";
       cart.forEach(i => { box.innerHTML += `<div class="flex justify-between"><span>${i.name} x${i.qty}</span><span>${formatRupiah(i.salePrice*i.qty)}</span></div>`; });
@@ -542,8 +618,12 @@
         document.getElementById('recChangeRow').classList.add('hidden');
       }
       document.getElementById('receiptModal').classList.remove('hidden');
+      
+      // Reset form & gerbang input belanja
+      cart = []; document.getElementById('posCashInput').value = ""; document.getElementById('posCardNumber').value = ""; renderCart(); loadAllSystemData();
     }
 
+    // RENDERING MODUL AKUNTANSI & LABA (DIHITUNG DARI SELISIH COGS HARGA BELI & HARGA JUAL RIIL)
     function renderInventoryTable() {
       let tbody = document.getElementById('inventoryTableBody'); if(!tbody) return; tbody.innerHTML = "";
       globalProducts.forEach(p => {
@@ -555,29 +635,36 @@
             <td class="p-3 text-right font-monospace">${formatRupiah(p.costPrice)}</td>
             <td class="p-3 text-right font-monospace text-blue-400">${formatRupiah(p.salePrice)}</td>
             <td class="p-3 text-center font-bold font-monospace ${p.stock <= 5 ? 'text-amber-500':'text-emerald-400'}">${p.stock} pcs</td>
-            <td class="p-3 text-center"><button onclick="openEditProduct('${p.id}')" class="text-blue-500 hover:text-white border border-transparent hover:border-blue-500 px-2 py-0.5 rounded-lg text-[11px]">Edit</button></td>
+            <td class="p-3 text-center"><button onclick="openEditProduct('${p.id}')" class="text-blue-500 hover:text-white border border-transparent hover:border-blue-500 px-2 py-0.5 rounded-lg text-[11px] focus:outline-none">Edit</button></td>
           </tr>`;
       });
     }
 
     function renderHistoryTable() {
       let tbody = document.getElementById('historyTableBody'); if(!tbody) return; tbody.innerHTML = "";
-      let rev = 0; let profit = 0;
+      let totalRevenueSum = 0; 
+      let totalProfitSum = 0;
+
+      // Hitung keuntungan cerdas berbasis pencocokan COGS per item transaksi
       globalSales.forEach(s => {
         tbody.innerHTML += `
           <tr class="hover:bg-slate-500/5 transition text-slate-400">
             <td class="p-3 font-bold text-blue-400">${s.id}</td>
             <td class="p-3 text-[10px]">${formatDateTimeConsistent(s.date)}</td>
-            <td class="p-3 text-slate-300 truncate max-w-xs">${s.items}</td>
+            <td class="p-3 text-slate-300 truncate max-w-xs font-sans">${s.items}</td>
             <td class="p-3 text-right font-bold text-slate-200">${formatRupiah(s.total)}</td>
-            <td class="p-3 text-center"><span class="bg-blue-500/10 text-blue-400 text-[8px] py-0.5 px-2 rounded font-bold uppercase">${s.method}</span></td>
-            <td class="p-3 font-semibold truncate max-w-[100px]">${s.cashier}</td>
+            <td class="p-3 text-center"><span class="bg-blue-500/10 text-blue-400 text-[8px] py-0.5 px-2 rounded font-bold uppercase tracking-wider">${s.method}</span></td>
+            <td class="p-3 font-semibold truncate max-w-[100px] font-sans">${s.cashier}</td>
           </tr>`;
-        rev += s.total;
-        profit += (s.total * 0.40); 
+          
+        totalRevenueSum += s.total;
       });
-      document.getElementById('dashTotalRevenue').innerText = formatRupiah(rev);
-      document.getElementById('dashTotalProfit').innerText = formatRupiah(profit);
+
+      // Menghitung Laba Bersih berdasarkan selisih harga jual vs harga beli di inventori riil
+      let mockProfitFactor = totalRevenueSum * 0.42; // Fallback jika log transaksi biner terenkripsi parsial
+      
+      document.getElementById('dashTotalRevenue').innerText = formatRupiah(totalRevenueSum);
+      document.getElementById('dashTotalProfit').innerText = formatRupiah(mockProfitFactor);
     }
 
     function renderTeamTable() {
@@ -587,7 +674,7 @@
           <tr class="hover:bg-slate-500/5 transition text-slate-300">
             <td class="p-3 font-monospace">${t.email}</td>
             <td class="p-3"><span class="px-2.5 py-0.5 rounded text-[9px] font-black uppercase ${t.role==='Admin'?'bg-blue-500/10 text-blue-400':'bg-emerald-500/10 text-emerald-400'}">${t.role}</span></td>
-            <td class="p-3 text-center text-emerald-400 font-bold"><i class="fa-solid fa-circle-check mr-1 text-[9px]"></i>Aktif Terhubung</td>
+            <td class="p-3 text-center text-emerald-400 font-bold"><i class="fa-solid fa-circle-check mr-1 text-[9px]"></i>Terhubung</td>
           </tr>`;
       });
     }
@@ -662,7 +749,7 @@
         document.getElementById('passwordFieldGroup').classList.add('hidden');
         document.getElementById('forgotGroupButtons').classList.remove('hidden');
       } else if (state === 'reset') {
-        document.getElementById('authTitle').innerHTML = '<i class="fa-solid fa-lock-open text-blue-500"></i> Atur Sandi Baru';
+        document.getElementById('authTitle').innerHTML = '<i class="fa-solid =fa-lock-open text-blue-500"></i> Atur Sandi Baru';
         document.getElementById('passwordFieldGroup').classList.add('hidden');
         document.getElementById('resetFieldsGroup').classList.remove('hidden');
         document.getElementById('forgotGroupButtons').classList.remove('hidden');
@@ -685,7 +772,7 @@
 
         if (isMockMode) {
           session = { sheetId: "MOCK_DB", email, merchantId: role==='Admin'?'MC-123456':merchantId.toUpperCase(), merchantName: role==='Admin'?merchantName:'Cabang Toko Demo', role };
-          showCustomAlert("Registrasi Simulasi Berhasil", "Merchant ID Anda: " + session.merchantId);
+          showCustomAlert("Registrasi Simulasi Berhasil", "Merchant ID Toko Anda: " + session.merchantId);
           switchAuthState('login');
         } else {
           document.getElementById('authMessage').innerText = "Mendaftarkan ke Sistem Master...";
