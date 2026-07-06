@@ -18,7 +18,7 @@
       --text-primary: #f8fafc;
       --text-secondary: #94a3b8;
     }
-    body { font-family: 'Inter', sans-serif; background-color: var(--bg-main); color: var(--text-primary); }
+    body { font-family: 'Inter', sans-serif; background-color: var(--bg-main); color: var(--text-primary); stroke: none; }
     .font-monospace { font-family: 'JetBrains Mono', monospace; }
     .premium-panel { background: var(--bg-panel); border: 1px solid var(--border-panel); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
     .premium-input { background-color: var(--bg-input); border: 1px solid var(--border-panel); color: var(--text-primary); }
@@ -44,7 +44,7 @@
     </div>
   </div>
 
-  <!-- AUTHENTICATION HUB -->
+  <!-- AUTHENTICATION CORE WINDOW -->
   <div id="authContainer" class="fixed inset-0 z-50 min-h-screen flex items-center justify-center px-4 bg-[#04060b]">
     <div class="premium-panel max-w-md w-full p-6 sm:p-8 rounded-2xl relative z-10 bg-[#0d1424]">
       <form id="authForm" onsubmit="event.preventDefault(); handleAuthSubmit();">
@@ -157,7 +157,7 @@
     </div>
   </aside>
 
-  <!-- MOBILE NAVIGATION BAR (FIXED ON BOTTOM, HIDDEN ON DESKTOP) -->
+  <!-- MOBILE BOTTOM NAVIGATION BAR -->
   <div id="bottomNav" class="flex md:hidden fixed bottom-0 left-0 right-0 h-16 bg-[#090d1a] border-t border-slate-800 justify-around items-center z-40 px-2 shadow-xl">
     <button onclick="switchTab('tab-pos')" id="mobile-btn-tab-pos" class="mobile-nav-btn active flex flex-col items-center justify-center text-slate-400 focus:outline-none">
       <i class="fa-solid fa-calculator text-base"></i><span class="text-[9px] font-bold mt-1 uppercase tracking-wide">Kasir</span>
@@ -176,7 +176,7 @@
     </button>
   </div>
 
-  <!-- CONTROL SYSTEM WINDOW -->
+  <!-- MAIN VIEWPORT -->
   <main class="flex-grow flex flex-col min-w-0 h-full overflow-hidden pb-16 md:pb-0">
     <header class="h-14 border-b border-slate-800 flex items-center justify-between px-4 sm:px-6 bg-[#090d1a] shrink-0">
       <h2 id="pageTitle" class="text-xs font-bold uppercase tracking-widest border-l-2 border-blue-500 pl-3">MESIN KASIR</h2>
@@ -185,18 +185,16 @@
 
     <div class="flex-1 overflow-y-auto p-3 sm:p-5">
       
-      <!-- TAB 1: OPERASIONAL KASIR (POS) -->
+      <!-- TAB 1: KASIR (POS) -->
       <section id="tab-pos" class="tab-content grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-5">
-        <!-- Katalog Sisi Kiri -->
         <div class="lg:col-span-2 space-y-4">
           <div class="premium-panel p-3 rounded-xl flex items-center gap-3">
             <i class="fa-solid fa-magnifying-glass text-slate-500 pl-2"></i>
-            <input type="text" id="posSearch" oninput="renderPOSCatalog()" class="w-full bg-transparent text-xs font-semibold focus:outline-none" placeholder="Ketik nama produk atau scan barcode...">
+            <input type="text" id="posSearch" oninput="renderPOSCatalog()" class="w-full bg-transparent text-xs font-semibold focus:outline-none" placeholder="Cari nama produk atau scan barcode...">
           </div>
           <div id="posCatalogGrid" class="grid grid-cols-2 sm:grid-cols-3 gap-3"></div>
         </div>
         
-        <!-- Keranjang Belanja Kasir Sisi Kanan -->
         <div class="premium-panel p-4 rounded-xl flex flex-col justify-between h-auto lg:h-[calc(100vh-160px)] lg:sticky lg:top-4">
           <div>
             <h3 class="text-xs font-bold uppercase tracking-wider pb-2 border-b border-slate-800 mb-3"><i class="fa-solid fa-shopping-cart text-blue-500 mr-1.5"></i>Keranjang Kasir</h3>
@@ -236,7 +234,7 @@
         </div>
       </section>
 
-      <!-- TAB 2: MANAGEMENT INVENTORI (ADMIN & MANAGER) -->
+      <!-- TAB 2: INVENTORIS / STOK (ADMIN & MANAGER) -->
       <section id="tab-inventory" class="tab-content hidden space-y-4">
         <div class="flex justify-between items-center flex-wrap gap-2">
           <h3 class="text-xs font-bold uppercase tracking-widest text-slate-400">Stok & Gudang</h3>
@@ -254,7 +252,7 @@
         </div>
       </section>
 
-      <!-- TAB 3: DASHBOARD OMSET & HISTORI NOTA (ADMIN ONLY) -->
+      <!-- TAB 3: DASHBOARD OMSET & ANALITIK (ADMIN ONLY) -->
       <section id="tab-history" class="tab-content hidden space-y-5">
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div class="premium-panel p-4 rounded-xl relative overflow-hidden">
@@ -287,7 +285,7 @@
       <section id="tab-team" class="tab-content hidden space-y-4">
         <div class="border-b border-slate-800 pb-2">
           <h3 class="text-xs font-bold uppercase tracking-widest text-slate-400">Manajemen Pemetaan Karyawan (Team Mapping)</h3>
-          <p class="text-[10px] text-slate-500 mt-0.5 font-semibold">Daftar seluruh manajer dan kasir aktif yang ditautkan ke ID Toko Anda.</p>
+          <p class="text-[10px] text-slate-500 mt-0.5 font-semibold">Karyawan Anda (Manager/Kasir) dapat memetakan akun mereka ke toko ini secara mandiri saat registrasi menggunakan Merchant ID di atas.</p>
         </div>
         <div class="premium-panel rounded-xl overflow-x-auto max-w-2xl">
           <table class="w-full text-left border-collapse">
@@ -357,7 +355,7 @@
     // =========================================================================
     // PASTE WEB APP URL KASIR ANDA DARI GOOGLE APPS SCRIPT DI SINI:
     // =========================================================================
-    const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyiEoyhqONtId2Wre7tTNdlkoNUKYwNfXIQLKv9i2RXXQyq-FF6OQzNAJXcZWhXJP4-/exec";
+    const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyiEoyhqONtId2Wre7tTNdlkoNUKYwNfXIQLKv9i2RXXQyq-FF6OQzNAJXcZWhXJP4-/exec"; // Biarkan kosong agar otomatis berjalan di simulasi lokal (Mock Mode)
 
     let session = { sheetId: "", email: "", merchantId: "", merchantName: "", role: "" };
     let globalProducts = [];
@@ -368,7 +366,7 @@
     let currentAuthState = 'login';
     let activePaymentMethod = "Cash";
 
-    if (GAS_WEB_APP_URL && !GAS_WEB_APP_URL.includes("AKfycbz")) { isMockMode = false; }
+    if (GAS_WEB_APP_URL && GAS_WEB_APP_URL.trim() !== "" && !GAS_WEB_APP_URL.includes("AKfycbz")) { isMockMode = false; }
 
     function formatRupiah(num) { return "Rp " + parseFloat(num).toLocaleString('id-ID', { minimumFractionDigits: 0 }); }
     
@@ -405,11 +403,11 @@
     }
 
     function enforceRolePermissions() {
-      // Desktop Sidebar
+      // Sembunyikan Semua Dahulu (Desktop)
       document.getElementById('btn-tab-inventory').classList.add('hidden');
       document.getElementById('btn-tab-history').classList.add('hidden');
       document.getElementById('btn-tab-team').classList.add('hidden');
-      // Mobile Bottom Nav
+      // Sembunyikan Semua Dahulu (Mobile)
       document.getElementById('mobile-btn-tab-inventory').classList.add('hidden');
       document.getElementById('mobile-btn-tab-history').classList.add('hidden');
       document.getElementById('mobile-btn-tab-team').classList.add('hidden');
@@ -441,7 +439,12 @@
           { id: "P103", name: "Susu UHT Vanilla", category: "Minuman", costPrice: 3000, salePrice: 6000, stock: 0, barcode: "33" }
         ];
         globalSales = JSON.parse(localStorage.getItem('MOCK_POS_SALES')) || [];
-        globalTeam = [{ email: session.email, role: session.role }];
+        
+        // Ambil list tim lokal agar data mapping tim bekerja dinamis
+        let users = JSON.parse(localStorage.getItem('MOCK_POS_USERS')) || [];
+        globalTeam = users.filter(u => u.merchantId === session.merchantId);
+        if(globalTeam.length === 0) { globalTeam = [{ email: session.email, role: session.role }]; }
+
         renderPOSCatalog(); renderInventoryTable(); renderHistoryTable(); renderTeamTable();
       } else {
         callGasBackend('getPOSData', [session.sheetId, session.merchantId])
@@ -660,7 +663,7 @@
 
     function renderHistoryTable() {
       let tbody = document.getElementById('historyTableBody'); if(!tbody) return; tbody.innerHTML = "";
-      let rev = 0; let profit = 0;
+      let rev = 0;
       globalSales.forEach(s => {
         tbody.innerHTML += `
           <tr class="hover:bg-slate-500/5 transition text-slate-400">
@@ -672,10 +675,9 @@
             <td class="p-3 font-semibold truncate max-w-[100px] font-sans">${s.cashier}</td>
           </tr>`;
         rev += s.total;
-        profit += (s.total * 0.40); 
       });
       document.getElementById('dashTotalRevenue').innerText = formatRupiah(rev);
-      document.getElementById('dashTotalProfit').innerText = formatRupiah(profit);
+      document.getElementById('dashTotalProfit').innerText = formatRupiah(rev * 0.42); 
     }
 
     function renderTeamTable() {
@@ -709,7 +711,6 @@
       document.getElementById('productModal').classList.remove('hidden');
     }
 
-    // INTERFACE TAB CONTROL NAVIGATION (SINKRONISASI BAR DESKTOP DAN MOBILE)
     function switchTab(tabId) {
       document.querySelectorAll('.tab-content').forEach(s => s.classList.add('hidden'));
       document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
@@ -800,8 +801,13 @@
         if (role !== "Admin" && !merchantId) return;
 
         if (isMockMode) {
-          session = { sheetId: "MOCK_DB", email, merchantId: role==='Admin'?'MC-123456':merchantId.toUpperCase(), merchantName: role==='Admin'?merchantName:'Cabang Toko Demo', role };
-          showCustomAlert("Registrasi Simulasi Berhasil", "Merchant ID Toko Anda: " + session.merchantId);
+          let generatedId = role==='Admin'?'MC-'+Math.floor(100000+Math.random()*900000):merchantId.toUpperCase();
+          let localUsers = JSON.parse(localStorage.getItem('MOCK_POS_USERS')) || [];
+          
+          localUsers.push({ email, password: pass, merchantId: generatedId, merchantName: role==='Admin'?merchantName:'Cabang Mitra Kasir', role });
+          localStorage.setItem('MOCK_POS_USERS', JSON.stringify(localUsers));
+          
+          showCustomAlert("Registrasi Berhasil", "Akun tersimpan! ID Toko (Merchant ID) Anda: " + generatedId);
           switchAuthState('login');
         } else {
           document.getElementById('authMessage').innerText = "Mendaftarkan ke Sistem Master...";
@@ -812,7 +818,15 @@
         }
       } else if (currentAuthState === 'login') {
         if (isMockMode) {
-          session = { sheetId: "MOCK_DB", email, merchantId: "MC-777888", merchantName: "Toko Demo Retail", role: "Admin" };
+          let localUsers = JSON.parse(localStorage.getItem('MOCK_POS_USERS')) || [];
+          let foundUser = localUsers.find(u => u.email === email && u.password === pass);
+          
+          if(foundUser) {
+            session = foundUser;
+          } else {
+            // Default Fallback Admin jika local storage masih kosong pertama kali buka
+            session = { sheetId: "MOCK_DB", email, merchantId: "MC-777888", merchantName: "Toko Retail Demo", role: "Admin" };
+          }
           document.getElementById('authContainer').classList.add('hidden'); enforceRolePermissions(); loadAllSystemData();
         } else {
           document.getElementById('authMessage').innerText = "Memvalidasi Kredensial Toko...";
@@ -851,7 +865,7 @@
 
     function logout() {
       session = { sheetId: "", email: "", merchantId: "", merchantName: "", role: "" };
-      cart = []; renderCart();
+      cart = []; renderCart(); switchTab('tab-pos');
       document.getElementById('authContainer').classList.remove('hidden');
       switchAuthState('login');
     }
